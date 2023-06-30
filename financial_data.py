@@ -101,7 +101,9 @@ class SECDataRetriever:
         if all(x in balance.columns for x in ['Assets', 'Liabilities']):
             balance['Stockholders Equity(BV)'] = balance['Assets'] - balance['Liabilities']
         if all(x in balance.columns for x in ['Assets', 'Intangible Assets', 'Goodwill']):
-            balance['Tangible BV'] = balance['Assets'] - balance["Intangible Assets"] - balance["Goodwill"]
+            balance['Tangible Assets'] = balance['Assets'] - balance["Intangible Assets"] - balance["Goodwill"]
+        if all(x in balance.columns for x in ['Tangible Assets', 'Liabilities']):
+            balance['Tangible BV'] = balance["Tangible Assets"] - balance['Liabilities']
         return balance
 
     def income_statement_calculator(self):
@@ -194,9 +196,8 @@ class SECDataRetriever:
         # make additional calculations where data from other dataframes is required
         if all(x in balance.columns for x in ['Stockholders Equity(BV)', 'Outstanding Shares']):
             balance['BV/Share'] = (balance['Stockholders Equity(BV)'] / balance['Outstanding Shares']).round(1)
-        if all(x in balance.columns for x in ['Intangible BV', 'Outstanding Shares']):
-            balance['TBV/Share'] = ((balance['Stockholders Equity(BV)'] - balance['Intangible BV']) \
-                                    / balance['Outstanding Shares']).round(1)
+        if all(x in balance.columns for x in ['Tangible BV', 'Outstanding Shares']):
+            balance['TBV/Share'] = (balance['Tangible BV'] / balance['Outstanding Shares']).round(1)
         # create a separate dataframe for additional calculations between cashflow and income statements
         df = cashflow.merge(income, left_on='Period End', right_on='Period End', how='left')
         if all(x in df.columns for x in ['CFO', 'Revenue']):
