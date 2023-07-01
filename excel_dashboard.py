@@ -4,19 +4,19 @@ import pandas as pd
 def reorder_columns(df, type):
     """A function to reorder the columns for the dashboard."""
     if type == "Income Statement":
-        column_order = ['Period End', 'Outstanding Shares', 'Revenue', 'Revenue Avg3',
+        column_order = ['Period End', 'Price', 'Outstanding Shares', 'Market Cap', 'Revenue', 'Revenue Avg3',
                         'COGS', 'Gross Profit', 'R&D', 'SGA', 'Operating expense', 'EBIT', 'D&A', 'EBITDA',
                         'Interest Expense', 'Tax Expense', 'Net Income', 'Gross Margin(%)', 'R&D Margin(%)',
                         'SGA Margin(%)', 'EBIT Margin(%)', 'EBITDA Margin(%)', 'Net Income Margin(%)',
                         'Basic EPS', 'Diluted EPS']
     if type == "Balance Sheet":
-        column_order = ['Period End', 'Outstanding Shares', 'Cash', 'Inventory',
+        column_order = ['Period End', 'Price', 'Outstanding Shares', 'Market Cap', 'Cash', 'Inventory',
                         'Current Assets', 'Non-Current Assets', 'Assets', 'DebtCurrent', 'AccountsPayableCurrent',
                         'DeferredRevenueCurrent', 'Current Liabilities', 'Long-term Debt',
                         'Non Current Liabilities', 'Liabilities', 'Stockholders Equity(BV)', 'BV/Share',
                         'Tangible BV', 'TBV/Share']
     if type == "Cashflow Statement":
-        column_order = ['Period End', 'Outstanding Shares', 'CFO', 'CFO Avg3', 'CFI', 'CFF',
+        column_order = ['Period End', 'Price', 'Outstanding Shares', 'Market Cap', 'CFO', 'CFO Avg3', 'CFI', 'CFF',
                         'Dividends', 'Debt Repayment', 'Common Stock Repurchased', 'NCF', 'CapEx', 'FCF',
                         'CFO Margin(%)', 'NCF Margin(%)', 'FCF Margin(%)']
     df = df.reindex(column_order, axis=1).dropna(how='all', axis=1)
@@ -38,7 +38,7 @@ def stock_dashboard_generator(ticker, income, balance, cashflow):
                 # cashflow
                 'CFO', 'CFO Avg3', 'CFI', 'Dividends', 'Debt Repayment', 'Common Stock Repurchased',
                 'NCF', 'FCF', 'CFO Margin(%)', 'NCF Margin(%)', 'FCF Margin(%)']
-    neutral = ['Period End', 'Outstanding Shares', 'COGS', 'R&D', 'SGA', 'D&A',
+    neutral = ['Period End', 'Price', 'Outstanding Shares', 'Market Cap', 'COGS', 'R&D', 'SGA', 'D&A',
                'CapEx']
     negative = ['Operating expense', 'Interest Expense', 'Tax Expense', 'SGA Margin(%)',
                 'DebtCurrent', 'AccountsPayableCurrent', 'Current Liabilities', 'Long-term Debt',

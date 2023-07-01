@@ -66,12 +66,6 @@ class SECDataRetriever:
                 print(tag+" Failed!")
         return records
 
-    def format_date(self, df):
-        """Take the year as a slice from the period end column and set it as the index of the dataframe."""
-        df = df.set_index(df["Period End"].str.slice(0, 4))
-        df.index.names = ['Year']
-        df["Period End"] = df["Period End"].str.slice(5)
-        return df
 
     def balance_sheet_calculator(self):
         """Retrieve balance sheet related data through relevant tags and calculate additional statistics."""
@@ -206,8 +200,4 @@ class SECDataRetriever:
             cashflow['NCF Margin(%)'] = ((df['NCF'] / df['Revenue']) * 100).round(1)
         if all(x in df.columns for x in ['FCF', 'Revenue']):
             cashflow['FCF Margin(%)'] = ((df['FCF'] / df['Revenue']) * 100).round(1)
-        # create additional year column and set as the index
-        income = self.format_date(income)
-        balance = self.format_date(balance)
-        cashflow = self.format_date(cashflow)
         return income, balance, cashflow

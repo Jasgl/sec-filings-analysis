@@ -1,4 +1,5 @@
 from financial_data import SECDataRetriever
+from market_data import join_market_data
 from excel_dashboard import stock_dashboard_generator
 
 
@@ -13,6 +14,7 @@ def main():
     ticker = input()
     call = SECDataRetriever(email)
     income, balance, cashflow = call.financial_statements(ticker)
+    income, balance, cashflow = join_market_data(ticker, income, balance, cashflow)
     stock_dashboard_generator(ticker, income, balance, cashflow)
 
 
